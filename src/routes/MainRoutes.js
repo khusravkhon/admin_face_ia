@@ -8,20 +8,16 @@ import MainLayout from 'layout/MainLayout';
 const Main = Loadable(lazy(() => import('pages/dashboard/main.js')));
 const User = Loadable(lazy(() => import('pages/user')));
 const Access = Loadable(lazy(() => import('pages/access')));
-const ErrorPage = Loadable(() => import('./error-page'));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
+  path: '/',
   element: <MainLayout />,
   children: [
     {
       path: '/main',
       element: <Main />
-    },
-    {
-      path: '*',
-      element: <ErrorPage />
     },
     {
       path: '/user',
