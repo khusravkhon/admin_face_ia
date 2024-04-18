@@ -13,6 +13,7 @@ const ErrorPage = Loadable(() => import('./error-page'));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
+  path: '/',
   element: <MainLayout />,
   children: [
     {
