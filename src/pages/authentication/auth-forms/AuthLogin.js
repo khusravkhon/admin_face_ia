@@ -137,7 +137,7 @@ const AuthLogin = () => {
                     }
                     label={<Typography variant="h6">Запомнить</Typography>}
                   />
-                  <Link variant="h6" component={RouterLink} to="" color="text.primary">
+                  <Link variant="h6" component={RouterLink} to="/register" color="text.primary">
                     Забыли пароль?
                   </Link>
                 </Stack>
