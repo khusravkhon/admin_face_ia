@@ -1,7 +1,8 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // scroll bar
 import 'simplebar/src/simplebar.css';
 
@@ -26,6 +27,7 @@ root.render(
     <ReduxProvider store={store}>
       <BrowserRouter>
         <App />
+        <ToastContainer position="top-left" autoClose={5000} hideProgressBar={false} closeOnClick pauseOnHover limit={1} />
       </BrowserRouter>
     </ReduxProvider>
   </StrictMode>

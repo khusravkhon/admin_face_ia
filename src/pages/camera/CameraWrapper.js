@@ -1,86 +1,87 @@
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import {
-  useRef,
-  useEffect,
-  useState
-} from 'react';
-import DataOpenPhoto from './dataOpenPhoto';
-import Header from '../../layout/header/index';
+import { useRef, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import IconButton from '@mui/material/IconButton';
 
-function CameraWrapper() {
-  const [is_active, setIs_active] = useState(false)
-  const videoRef = useRef(null);
-  // const canvasRef = useRef(null);
-  // const [photoData, setPhotoData] = useState < string > '';
+function CameraWrapper({ dataimg }) {
+  const [is_active, setIs_active] = useState(false);
+  const [isMouseOver, setIsMouseOver] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const canvasRef = useRef(null);
+  const videoWidth = 540;
+  const videoHeight = 316.25;
 
   useEffect(() => {
-    const video = videoRef.current;
-
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
 
     navigator.mediaDevices
       .getUserMedia({ video: true })
       .then((stream) => {
-        if(!is_active) {
+        if (!is_active) {
           toast.success('Доступ к камере разрешено !', { position: 'top-right' });
-          setIs_active(true)
+          setIs_active(true);
         }
+
+        const video = document.createElement('video');
         video.srcObject = stream;
+        video.onloadedmetadata = () => {
+          video.width = videoWidth;
+          video.height = videoHeight;
+          video.play();
+          drawVideo(video, ctx, videoWidth, videoHeight);
+        };
       })
-      .catch(() => {
-        if(!is_active) {
-          toast.error('Доступ к камере не разрешено !', {position: 'top-right'});
-          setIs_active(true)
+      .catch((err) => {
+        if (!is_active) {
+          toast.error(`Доступ к камере не разрешен: ${err}`, { position: 'top-right' });
+          setIs_active(true);
         }
       });
 
     return () => {
-      video.srcObject?.getTracks().forEach((track) => track.stop());
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
     };
   }, []);
 
+  const drawVideo = (video, ctx, width, height) => {
+    ctx.drawImage(video, 0, 0, width, height);
+    requestAnimationFrame(() => drawVideo(video, ctx, width, height));
+  };
+
   const snapPhoto = () => {
-    // const video = videoRef.current;
-    // const canvas: any = canvasRef.current;
-    // const ctx = canvas.getContext("2d");
-    // ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    // const imageData = canvas.toDataURL();
-    // setPhotoData(imageData);
+    const canvas = canvasRef.current;
+    const imageData = canvas.toDataURL();
+    dataimg(imageData);
+  };
+  const handleMouseMove = (event) => {
+    setMousePosition({ x: event.clientX, y: event.clientY });
   };
 
   return (
     <>
-      <Header />
-      <div className="flex justify-center mt-[5%]">
-        <div>
-          <video className="w-full h-[400px] border rounded" autoPlay ref={videoRef}>
-            <track kind="captions"/>
-          </video>
-          <div className="photo-button ">
-            <button onClick={snapPhoto}>
-              <div className="circle"></div>
-              <div className="ring"></div>
-            </button>
-          </div>
-        </div>
-        <div className="flex justify-center ml-[16px] min-w-[300px]">
-          <DataOpenPhoto
-          // photoData={photoData}
-          ></DataOpenPhoto>
-          {/* <canvas
-            className="w-full max-w-48 h-full max-h-48 rounded-full"
+      <div>
+        <div className="relative">
+          <canvas
+            onClick={snapPhoto}
             ref={canvasRef}
-          ></canvas> */}
+            width={videoWidth}
+            height={videoHeight}
+            className="rounded"
+            onMouseEnter={() => setIsMouseOver(true)}
+            onMouseLeave={() => setIsMouseOver(false)}
+            onMouseMove={handleMouseMove}
+          ></canvas>
+          <IconButton size="large" onClick={snapPhoto} className="absolute bottom-0 left-[250px] ">
+            <CameraAltIcon />
+          </IconButton>
         </div>
+        {isMouseOver && (
+          <div style={{ position: 'absolute', top: mousePosition.y, left: mousePosition.x }}>
+            <CameraAltIcon />
+          </div>
+        )}
       </div>
-      <ToastContainer 
-      position="top-left"
-      autoClose={5000}
-      hideProgressBar={false}
-      closeOnClick
-      pauseOnHover
-      limit={1}
-      />;
     </>
   );
 }
