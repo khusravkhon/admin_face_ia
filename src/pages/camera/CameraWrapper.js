@@ -67,7 +67,7 @@ function CameraWrapper({ dataimg }) {
             ref={canvasRef}
             width={videoWidth}
             height={videoHeight}
-            className="rounded"
+            className="border rounded shadow-md"
             onMouseEnter={() => setIsMouseOver(true)}
             onMouseLeave={() => setIsMouseOver(false)}
             onMouseMove={handleMouseMove}

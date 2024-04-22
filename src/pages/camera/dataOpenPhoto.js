@@ -4,7 +4,7 @@
 // const { Title, Text } = Typography;
 // import { useState } from 'react';
 
-function DataOpenPhoto() {
+function DataOpenPhoto(props) {
   // const [loading, setLoading] = useState(false);
 
   // console.log(photoData);
@@ -24,7 +24,7 @@ function DataOpenPhoto() {
   // };
 
   return (
-    <div>KHusrav</div>
+    <div className="border rounded shadow-md " >KHusrav {props.dataPeople}</div>
     // <div>
     //   {data.map((item, index) => (
 
