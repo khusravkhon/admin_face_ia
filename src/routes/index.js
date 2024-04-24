@@ -9,7 +9,7 @@ import CameraRoutes from './CameraRoutes';
 
 export default function ThemeRoutes() {
   
-  const isAuthenticated = useSelector(state => state.menu.drawerOpen);
+  const isAuthenticated = useSelector(state => state.menu.isAutoPeople);
 
   const mainRoutes = isAuthenticated ? MainRoutes(isAuthenticated) : [];
 

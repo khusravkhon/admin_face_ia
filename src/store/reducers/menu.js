@@ -7,7 +7,8 @@ const initialState = {
   openComponent: 'buttons',
   drawerOpen: false,
   componentDrawerOpen: true,
-  is_activeLoading: false
+  is_activeLoading: false,
+  isAutoPeople: true,
 };
 
 
@@ -17,6 +18,10 @@ const menu = createSlice({
   reducers: {
     activeLoading(state) {
       state.is_activeLoading = !state.is_activeLoading;
+    },
+
+    activeAuth(state) {
+      state.isAutoPeople = false
     },
 
     activeItem(state, action) {
@@ -39,4 +44,4 @@ const menu = createSlice({
 
 export default menu.reducer;
 
-export const { activeItem, activeComponent, openDrawer, openComponentDrawer, activeLoading } = menu.actions;
+export const { activeItem, activeComponent, openDrawer, openComponentDrawer, activeLoading, activeAuth } = menu.actions;
