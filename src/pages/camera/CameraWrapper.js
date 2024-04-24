@@ -8,8 +8,8 @@ function CameraWrapper({ dataimg }) {
   const [isMouseOver, setIsMouseOver] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const canvasRef = useRef(null);
-  const videoWidth = 540;
-  const videoHeight = 316.25;
+  const videoWidth = 1000;
+  const videoHeight = 500;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -60,7 +60,6 @@ function CameraWrapper({ dataimg }) {
 
   return (
     <>
-      <div>
         <div className="relative">
           <canvas
             onClick={snapPhoto}
@@ -72,7 +71,7 @@ function CameraWrapper({ dataimg }) {
             onMouseLeave={() => setIsMouseOver(false)}
             onMouseMove={handleMouseMove}
           ></canvas>
-          <IconButton size="large" onClick={snapPhoto} className="absolute bottom-0 left-[250px] ">
+          <IconButton size="large" onClick={snapPhoto} className="absolute bottom-0 mx-[450px]">
             <CameraAltIcon />
           </IconButton>
         </div>
@@ -81,7 +80,6 @@ function CameraWrapper({ dataimg }) {
             <CameraAltIcon />
           </div>
         )}
-      </div>
     </>
   );
 }
