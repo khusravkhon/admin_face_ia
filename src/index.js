@@ -3,14 +3,10 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// scroll bar
-import 'simplebar/src/simplebar.css';
+
 
 // third-party
 import { Provider as ReduxProvider } from 'react-redux';
-
-// apex-chart
-import 'assets/third-party/apex-chart.css';
 
 // project import
 import App from './App';
