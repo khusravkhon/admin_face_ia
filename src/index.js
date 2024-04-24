@@ -5,10 +5,9 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-// third-party
+
 import { Provider as ReduxProvider } from 'react-redux';
 
-// project import
 import App from './App';
 import { store } from 'store';
 import reportWebVitals from './reportWebVitals';
