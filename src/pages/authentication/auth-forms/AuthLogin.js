@@ -17,17 +17,13 @@ import {
   Typography
 } from '@mui/material';
 
-// third party
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 
-// project import
 import AnimateButton from 'components/@extended/AnimateButton';
 
-// assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 
-// ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthLogin = () => {
   const [checked, setChecked] = React.useState(false);
@@ -137,7 +133,7 @@ const AuthLogin = () => {
                     }
                     label={<Typography variant="h6">Запомнить</Typography>}
                   />
-                  <Link variant="h6" component={RouterLink} to="/register" color="text.primary">
+                  <Link variant="h6" component={RouterLink} to="/authRecover" color="text.primary">
                     Забыли пароль?
                   </Link>
                 </Stack>

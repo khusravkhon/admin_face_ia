@@ -9,10 +9,10 @@ const dashboard = {
   type: 'group',
   children: [
     {
-      id: 'main',
+      id: 'admin',
       title: 'Главный',
       type: 'item',
-      url: '/main',
+      url: '/admin',
       icon: ExpandOutlined,
       breadcrumbs: false
     },

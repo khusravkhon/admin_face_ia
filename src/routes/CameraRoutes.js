@@ -6,15 +6,19 @@ import Loadable from 'components/Loadable';
 
 const Camera = Loadable(lazy(() => import('pages/camera/Camera')));
 
-const CameraRoutes = {
-  path: '/',
-  element: <Camera />,
-  children: [
+const CameraRoutes = () => {
+  return [
     {
-      path: '/camera',
-      element: <Camera />
+      path: '/',
+      element: <Camera />,
+      children: [
+        {
+          path: '/camera',
+          element: <Camera />
+        }
+      ]
     }
-  ]
+  ];
 };
 
 export default CameraRoutes;
