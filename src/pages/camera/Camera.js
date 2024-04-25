@@ -2,46 +2,28 @@ import CameraWrapper from './CameraWrapper';
 import Logo from '../../components/Logo/index';
 import Box from '@mui/material/Box';
 import DataOpenPhoto from './dataOpenPhoto';
-// import { useDispatch } from 'react-redux';
 import { useState } from 'react';
-// import { activeLoading } from '../../store/reducers/menu';
 
 function Camera() {
-  const [dataPeople, setDataPeople] = useState([]);
-
-  // const dispatch = useDispatch();
+  const [dataPeople, setDataPeople] = useState([{ name: 'Khusrav' }]);
 
   const dataimg = (imageData) => {
-    setTimeout(
-      () => {
-        // dispatch(activeLoading());
         setDataPeople([{ name: 'Khusrav' }]);
         console.log(imageData);
-      },
-      3000
-      // dispatch(activeLoading())
-    );
   };
   return (
     <>
-      <Logo />
+      <Logo/>
       <Box
         sx={{
           display: 'flex',
-          justifyContent: 'space-around'
+          justifyContent: 'space-between',
+          mt: 10
         }}
       >
         <CameraWrapper dataimg={dataimg} />
-        <div className="border rounded shadow-md">
-          <DataOpenPhoto dataPeople={dataPeople} />
-        </div>
+        <DataOpenPhoto dataPeople={dataPeople}/>
       </Box>
-      {/* <div className="flex justify-around">
-        <div className="mt-[100px]"> */}
-      {/* </div> */}
-      {/* <div className='mr-[100px] mt-[90px] border rounded shadow-md w-[400px]'>
-        </div> */}
-      {/* </div> */}
     </>
   );
 }

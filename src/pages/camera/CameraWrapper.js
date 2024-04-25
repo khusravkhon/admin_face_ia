@@ -2,13 +2,10 @@ import { useRef, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import IconButton from '@mui/material/IconButton';
-import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 
 function CameraWrapper({ dataimg }) {
   const [is_active, setIs_active] = useState(false);
-  const [isMouseOver, setIsMouseOver] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const canvasRef = useRef(null);
   const videoWidth = 1000;
   const videoHeight = 500;
@@ -56,39 +53,20 @@ function CameraWrapper({ dataimg }) {
     const imageData = canvas.toDataURL();
     dataimg(imageData);
   };
-  const handleMouseMove = (event) => {
-    setMousePosition({ x: event.clientX, y: event.clientY });
-  };
 
   return (
     <>
-      <Container style={{ position: 'relative' }}>
+      <Container style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
         <canvas
-          onClick={snapPhoto}
           ref={canvasRef}
-          width={videoWidth}
-          height={videoHeight}
-          className="border rounded shadow-md"
-          onMouseEnter={() => setIsMouseOver(true)}
-          onMouseLeave={() => setIsMouseOver(false)}
-          onMouseMove={handleMouseMove}
+          width={{width: '100%'}}
+          height={{height: '100%'}}
+          className="borderCamera"
         ></canvas>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center'
-          }}
-        >
-          <IconButton size="large" onClick={snapPhoto} style={{ position: 'absolute', bottom: '0' }}>
+          <IconButton size="large"  onClick={snapPhoto} style={{ position: 'absolute', bottom: '0', }}>
             <CameraAltIcon />
           </IconButton>
-        </Box>
       </Container>
-      {isMouseOver && (
-        <div style={{ position: 'absolute', top: mousePosition.y, left: mousePosition.x }}>
-          <CameraAltIcon />
-        </div>
-      )}
     </>
   );
 }
