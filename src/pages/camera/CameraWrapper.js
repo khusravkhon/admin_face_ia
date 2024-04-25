@@ -2,6 +2,8 @@ import { useRef, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import IconButton from '@mui/material/IconButton';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 
 function CameraWrapper({ dataimg }) {
   const [is_active, setIs_active] = useState(false);
@@ -60,26 +62,33 @@ function CameraWrapper({ dataimg }) {
 
   return (
     <>
-        <div className="relative">
-          <canvas
-            onClick={snapPhoto}
-            ref={canvasRef}
-            width={videoWidth}
-            height={videoHeight}
-            className="border rounded shadow-md"
-            onMouseEnter={() => setIsMouseOver(true)}
-            onMouseLeave={() => setIsMouseOver(false)}
-            onMouseMove={handleMouseMove}
-          ></canvas>
-          <IconButton size="large" onClick={snapPhoto} className="absolute bottom-0 mx-[450px]">
+      <Container style={{ position: 'relative' }}>
+        <canvas
+          onClick={snapPhoto}
+          ref={canvasRef}
+          width={videoWidth}
+          height={videoHeight}
+          className="border rounded shadow-md"
+          onMouseEnter={() => setIsMouseOver(true)}
+          onMouseLeave={() => setIsMouseOver(false)}
+          onMouseMove={handleMouseMove}
+        ></canvas>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+        >
+          <IconButton size="large" onClick={snapPhoto} style={{ position: 'absolute', bottom: '0' }}>
             <CameraAltIcon />
           </IconButton>
+        </Box>
+      </Container>
+      {isMouseOver && (
+        <div style={{ position: 'absolute', top: mousePosition.y, left: mousePosition.x }}>
+          <CameraAltIcon />
         </div>
-        {isMouseOver && (
-          <div style={{ position: 'absolute', top: mousePosition.y, left: mousePosition.x }}>
-            <CameraAltIcon />
-          </div>
-        )}
+      )}
     </>
   );
 }

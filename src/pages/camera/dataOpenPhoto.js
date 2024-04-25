@@ -7,61 +7,54 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useSelector } from 'react-redux';
 
 function DataOpenPhoto(props) {
+  const is_activeLoading = useSelector((state) => state.menu.is_activeLoading);
 
-  const is_activeLoading = useSelector(state => state.menu.is_activeLoading)
-
-  return (
-    is_activeLoading === true ? (
-      <Box 
-    sx={{
-      display: 'flex',
-      justifyContent: 'center',
-      p: 1,
-      mt: 30,
-      bgcolor: 'background.paper',
-      borderRadius: 1,
-    }}
+  return is_activeLoading === true ? (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        p: 1,
+        mt: 30,
+        bgcolor: 'background.paper',
+        borderRadius: 1
+      }}
     >
-      <CircularProgress/>
+      <CircularProgress />
     </Box>
-    ):
-    props.dataPeople.length > 0 ? (
-      props.dataPeople.map((el, i) => (
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            p: 1,
-            m: 1,
-            bgcolor: 'background.paper',
-            borderRadius: 1,
-          }}
-          key={i}
-        >
+  ) : props.dataPeople.length > 0 ? (
+    props.dataPeople.map((el, i) => (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          p: 1,
+          m: 1,
+          bgcolor: 'background.paper',
+          borderRadius: 1
+        }}
+        key={i}
+      >
         <Stack spacing={1}>
-            <Avatar alt="Remy Sharp" src={require('../../assets/photo/frontend.png')} sx={{ width: 150, height: 150 }}/>
-              <TextField
-                id="standard-multiline-flexible"
-                label="ФИО"
-                multiline
-                maxRows={4}
-                variant="standard"
-              />
+          <Avatar alt="Remy Sharp" src={require('../../assets/photo/frontend.png')} sx={{ width: 150, height: 150 }} />
+          <TextField id="standard-multiline-flexible" label="ФИО" multiline maxRows={4} variant="standard" />
         </Stack>
-        </Box>
-      ))
-    ): 
-    <Box 
-    sx={{
-      display: 'flex',
-      justifyContent: 'center',
-      p: 1,
-      mt: 30,
-      bgcolor: 'background.paper',
-      borderRadius: 1,
-    }}
+      </Box>
+    ))
+  ) : (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        p: 1,
+        mt: 30,
+        bgcolor: 'background.paper',
+        borderRadius: 1
+      }}
     >
-      <Typography variant="h4" gutterBottom >Нет данных</Typography>
+      <Typography variant="h4" gutterBottom>
+        Нет данных
+      </Typography>
     </Box>
   );
 }
