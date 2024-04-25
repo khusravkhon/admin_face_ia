@@ -9,6 +9,7 @@ const LogoSection = ({ sx }) => {
     <ButtonBase
       disableRipple
       sx={sx}
+      className="logo"
     >
       <Logo />
     </ButtonBase>

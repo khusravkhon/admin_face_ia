@@ -21,7 +21,7 @@ const Header = ({ open, handleDrawerToggle }) => {
 
   
   const mainHeader = (
-    <Toolbar className="flex justify-between">
+    <Toolbar  className='header'>
       <IconButton
         disableRipple
         aria-label="open drawer"
