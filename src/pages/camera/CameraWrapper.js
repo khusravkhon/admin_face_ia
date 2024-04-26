@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import IconButton from '@mui/material/IconButton';
-import Container from '@mui/material/Container';
+// import Container from '@mui/material/Container';
 
 function CameraWrapper({ dataimg }) {
   const [is_active, setIs_active] = useState(false);
@@ -56,17 +56,12 @@ function CameraWrapper({ dataimg }) {
 
   return (
     <>
-      <Container style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
-        <canvas
-          ref={canvasRef}
-          width={{width: '100%'}}
-          height={{height: '100%'}}
-          className="borderCamera"
-        ></canvas>
-          <IconButton size="large"  onClick={snapPhoto} style={{ position: 'absolute', bottom: '0', }}>
-            <CameraAltIcon />
-          </IconButton>
-      </Container>
+      <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', marginRight: '3%', marginLeft: '3%' }}>
+        <canvas ref={canvasRef} width={videoWidth} height={videoHeight} className="borderCamera"></canvas>
+        <IconButton size="large" onClick={snapPhoto} style={{ position: 'absolute', bottom: '0' }}>
+          <CameraAltIcon />
+        </IconButton>
+      </div>
     </>
   );
 }

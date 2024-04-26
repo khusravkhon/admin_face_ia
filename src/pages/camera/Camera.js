@@ -8,21 +8,21 @@ function Camera() {
   const [dataPeople, setDataPeople] = useState([{ name: 'Khusrav' }]);
 
   const dataimg = (imageData) => {
-        setDataPeople([{ name: 'Khusrav' }]);
-        console.log(imageData);
+    setDataPeople([{ name: 'Khusrav' }]);
+    console.log(imageData);
   };
   return (
     <>
-      <Logo/>
+      <Logo />
       <Box
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
-          mt: 10
+          mt: 5
         }}
       >
         <CameraWrapper dataimg={dataimg} />
-        <DataOpenPhoto dataPeople={dataPeople}/>
+        <DataOpenPhoto dataPeople={dataPeople} />
       </Box>
     </>
   );
