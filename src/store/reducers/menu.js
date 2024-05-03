@@ -1,21 +1,29 @@
-// types
+
 import { createSlice } from '@reduxjs/toolkit';
 
-// initial state
 const initialState = {
   openItem: ['dashboard'],
   defaultId: 'dashboard',
   openComponent: 'buttons',
   drawerOpen: false,
-  componentDrawerOpen: true
+  componentDrawerOpen: true,
+  is_activeLoading: false,
+  isAutoPeople: true,
 };
 
-// ==============================|| SLICE - MENU ||============================== //
 
 const menu = createSlice({
   name: 'menu',
   initialState,
   reducers: {
+    activeLoading(state) {
+      state.is_activeLoading = !state.is_activeLoading;
+    },
+
+    activeAuth(state) {
+      state.isAutoPeople = false
+    },
+
     activeItem(state, action) {
       state.openItem = action.payload.openItem;
     },
@@ -30,10 +38,10 @@ const menu = createSlice({
 
     openComponentDrawer(state, action) {
       state.componentDrawerOpen = action.payload.componentDrawerOpen;
-    }
+    },
   }
 });
 
 export default menu.reducer;
 
-export const { activeItem, activeComponent, openDrawer, openComponentDrawer } = menu.actions;
+export const { activeItem, activeComponent, openDrawer, openComponentDrawer, activeLoading, activeAuth } = menu.actions;

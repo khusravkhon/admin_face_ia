@@ -1,12 +1,27 @@
-import { useRoutes } from 'react-router-dom';
+import { useRoutes,Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-// project import
+
 import LoginRoutes from './LoginRoutes';
 import MainRoutes from './MainRoutes';
 import CameraRoutes from './CameraRoutes';
 
-// ==============================|| ROUTING RENDER ||============================== //
 
 export default function ThemeRoutes() {
-  return useRoutes([MainRoutes, CameraRoutes, LoginRoutes]);
+  
+  const isAuthenticated = useSelector(state => state.menu.isAutoPeople);
+
+  const mainRoutes = isAuthenticated ? MainRoutes(isAuthenticated) : [];
+
+   const routes =  useRoutes([
+     ...CameraRoutes(isAuthenticated),
+     ...LoginRoutes(isAuthenticated),
+     ...mainRoutes,
+
+
+    { path: '/', element: <Navigate to="/login" /> },
+    { path: '*', element: <Navigate to="/login" /> }
+  ]);
+
+  return routes
 }
