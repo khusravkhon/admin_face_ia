@@ -62,11 +62,12 @@ export default function ModalCreateUser() {
     const reader = new FileReader();
     reader.onload = () => {
       const base64String = reader.result;
+      var dateOfBirths = new Date(dateOfBirth).toUTCString();
       const newFormData = new FormData();
       newFormData.append('file', base64String);
       newFormData.append('FirstName', firstName);
       newFormData.append('LastName', LastName);
-      newFormData.append('DateOfBirth', dateOfBirth);
+      newFormData.append('DateOfBirth', dateOfBirths);
       setFormData(newFormData);
     };
     reader.readAsDataURL(file);
