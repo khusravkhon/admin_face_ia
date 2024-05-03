@@ -10,7 +10,7 @@ import LongMenu from '../../../menu-items/menu-table/menu';
 import api from '../../../data/createUser/index';
 import { toast } from 'react-toastify';
 
-export default function TableUser({ data, createUser, editUser }) {
+export default function TableUser({ data, createUser, editUser, refresh }) {
   const [contextMenu, setContextMenu] = React.useState(null);
   const newRecord = () => {
     createUser();
@@ -22,10 +22,13 @@ export default function TableUser({ data, createUser, editUser }) {
     api
       .deleteUser(id)
       .then((res) => {
-        toast.error(`Пользователь удалён: ${res.data}`, { position: 'top-right' });
+        toast.success(`Пользователь удалён: ${res.data}`, { position: 'top-right' });
       })
       .catch((err) => {
         toast.error(`Ошибка: ${err.message}`, { position: 'top-right' });
+      })
+      .finally(() => {
+        refresh();
       });
   };
 
@@ -68,7 +71,7 @@ export default function TableUser({ data, createUser, editUser }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((row) => (
+            {data?.map((row) => (
               <TableRow
                 key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
