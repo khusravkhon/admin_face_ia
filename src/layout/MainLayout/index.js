@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
 import { Box, Toolbar, useMediaQuery } from '@mui/material';
 
-// project import
 import Drawer from './Drawer';
 import Header from './Header';
 import navigation from 'menu-items';
