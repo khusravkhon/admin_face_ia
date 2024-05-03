@@ -11,43 +11,20 @@ import api from '../../../src/data/createUser/index';
 const DashboardDefault = () => {
   const [is_activeLoading, setisActiveLoading] = useState(false);
   const [editUser, setEditUser] = useState(null);
+  const [data, setData] = useState();
   const dispatch = useDispatch();
-
-  const data = [
-    {
-      id: 12,
-      firstName: 'Khusrav',
-      lastName: 'Nosiri',
-      dateOfBirth: '2024-05-01T10:05:25.819Z'
-    },
-    {
-      id: 122,
-      firstName: 'Khusrav',
-      lastName: 'Nosiri',
-      dateOfBirth: '2024-05-01T10:05:25.819Z'
-    },
-    {
-      id: 23,
-      firstName: 'Khusrav',
-      lastName: 'Nosiri',
-      dateOfBirth: '2024-05-01T10:05:25.819Z'
-    },
-    {
-      id: 34,
-      firstName: 'Khusrav',
-      lastName: 'Nosiri',
-      dateOfBirth: '2024-05-01T10:05:25.819Z'
-    }
-  ];
 
   function refresh() {
     setisActiveLoading(true);
-    setisActiveLoading(false);
+    api.refreshUser().then((res) => {
+      setData(res.data);
+      setisActiveLoading(false);
+    });
   }
 
   useEffect(() => {
     refresh();
-  });
+  }, []);
 
   function createUserModal() {
     dispatch(modalCreateOpen());
@@ -56,7 +33,9 @@ const DashboardDefault = () => {
   function editUserModal(id) {
     api.UserId(id).then((res) => {
       setEditUser(res.data);
-      dispatch(modalEditOpen());
+      setTimeout(() => {
+        dispatch(modalEditOpen());
+      }, 0);
     });
   }
 
@@ -72,9 +51,9 @@ const DashboardDefault = () => {
     </Box>
   ) : (
     <>
-      <TableUser data={data} createUser={createUserModal} editUser={editUserModal} />
-      <ModalCreateUser />
-      <ModalEditUser editUser={editUser} />
+      <TableUser data={data} createUser={createUserModal} editUser={editUserModal} refresh={refresh} />
+      <ModalCreateUser refresh={refresh} />
+      <ModalEditUser editUser={editUser} refresh={refresh} />
     </>
   );
 };
