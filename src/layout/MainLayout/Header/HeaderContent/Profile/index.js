@@ -1,30 +1,14 @@
 import PropTypes from 'prop-types';
 import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useTheme } from '@mui/material/styles';
-import {
-  Avatar,
-  Box,
-  ButtonBase,
-  CardContent,
-  ClickAwayListener,
-  Grid,
-  IconButton,
-  Paper,
-  Popper,
-  Stack,
-  Typography
-} from '@mui/material';
+import { Avatar, Box, ButtonBase, CardContent, ClickAwayListener, Grid, IconButton, Paper, Popper, Stack, Typography } from '@mui/material';
 
 import MainCard from 'components/MainCard';
 import Transitions from 'components/@extended/Transitions';
-import { useDispatch } from 'react-redux';
-import {activeAuth } from '../../../../../store/reducers/menu'
 
-
-import {
-  LogoutOutlined,
-} from '@ant-design/icons';
+import { LogoutOutlined } from '@ant-design/icons';
 
 function TabPanel({ children, value, index, ...other }) {
   return (
@@ -40,14 +24,14 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired
 };
 
-
 const Profile = () => {
-
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem('jwtToken'));
   const theme = useTheme();
 
   const handleLogout = () => {
-    dispatch(activeAuth())
+    localStorage.removeItem('jwtToken');
+    navigate('/Login');
   };
 
   const anchorRef = useRef(null);
@@ -81,8 +65,8 @@ const Profile = () => {
         onClick={handleToggle}
       >
         <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
-          <Avatar alt="profile user" src={require('../../../../../assets/photo/frontend.png')}  sx={{ width: 32, height: 32 }} />
-          <Typography variant="subtitle1">Khusrav</Typography>
+          <Avatar alt="profile user" src={require('../../../../../assets/photo/frontend.png')} sx={{ width: 32, height: 32 }} />
+          <Typography variant="subtitle1">{user.login}</Typography>
         </Stack>
       </ButtonBase>
       <Popper
@@ -123,9 +107,13 @@ const Profile = () => {
                       <Grid container justifyContent="space-between" alignItems="center">
                         <Grid item>
                           <Stack direction="row" spacing={1.25} alignItems="center">
-                            <Avatar alt="profile user" src={require('../../../../../assets/photo/frontend.png')} sx={{ width: 32, height: 32 }} />
+                            <Avatar
+                              alt="profile user"
+                              src={require('../../../../../assets/photo/frontend.png')}
+                              sx={{ width: 32, height: 32 }}
+                            />
                             <Stack>
-                              <Typography variant="h6">Khusrav</Typography>
+                              <Typography variant="h6">{user.login}</Typography>
                               <Typography variant="body2" color="textSecondary">
                                 Админ
                               </Typography>

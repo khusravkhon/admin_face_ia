@@ -1,4 +1,3 @@
-
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -6,24 +5,13 @@ const initialState = {
   defaultId: 'dashboard',
   openComponent: 'buttons',
   drawerOpen: false,
-  componentDrawerOpen: true,
-  is_activeLoading: false,
-  isAutoPeople: true,
+  componentDrawerOpen: true
 };
-
 
 const menu = createSlice({
   name: 'menu',
   initialState,
   reducers: {
-    activeLoading(state) {
-      state.is_activeLoading = !state.is_activeLoading;
-    },
-
-    activeAuth(state) {
-      state.isAutoPeople = false
-    },
-
     activeItem(state, action) {
       state.openItem = action.payload.openItem;
     },
@@ -38,10 +26,10 @@ const menu = createSlice({
 
     openComponentDrawer(state, action) {
       state.componentDrawerOpen = action.payload.componentDrawerOpen;
-    },
+    }
   }
 });
 
 export default menu.reducer;
 
-export const { activeItem, activeComponent, openDrawer, openComponentDrawer, activeLoading, activeAuth } = menu.actions;
+export const { activeItem, activeComponent, openDrawer, openComponentDrawer, activeAuth } = menu.actions;

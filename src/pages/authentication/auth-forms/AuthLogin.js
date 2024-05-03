@@ -1,6 +1,7 @@
-import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-
+import React, { useEffect } from 'react';
+import api from '../../../data/auth/auth';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 // material-ui
 import {
   Button,
@@ -8,7 +9,6 @@ import {
   FormControlLabel,
   FormHelperText,
   Grid,
-  Link,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -24,10 +24,9 @@ import AnimateButton from 'components/@extended/AnimateButton';
 
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 
-
 const AuthLogin = () => {
+  const navigate = useNavigate();
   const [checked, setChecked] = React.useState(false);
-
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -37,27 +36,47 @@ const AuthLogin = () => {
     event.preventDefault();
   };
 
+  useEffect(() => {
+    if (localStorage.getItem('user')) {
+      setChecked(true);
+    }
+  }, []);
+
   return (
     <>
       <Formik
         initialValues={{
-          email: 'kroyd.gmail',
-          password: '123456',
-          submit: null
+          login: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).login : '',
+          password: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).password : ''
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string().email('Должен быть действительный адрес электронной почты').max(255).required('Требуется электронная почта'),
-          password: Yup.string().max(255).required('Требуется ввести пароль')
+          login: Yup.string().min(6).required('Логин'),
+          password: Yup.string().max(20).required('Требуется ввести пароль')
         })}
-        onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-          try {
-            setStatus({ success: false });
-            setSubmitting(false);
-          } catch (err) {
-            setStatus({ success: false });
-            setErrors({ submit: err.message });
-            setSubmitting(false);
-          }
+        onSubmit={(values, { setErrors, setStatus, setSubmitting }) => {
+          api
+            .loginUser(values)
+            .then((res) => {
+              if (checked) {
+                localStorage.setItem('user', JSON.stringify(values));
+              }
+              localStorage.setItem('jwtToken', JSON.stringify(res.data));
+              navigate('/admin');
+              setStatus({ success: true });
+              setSubmitting(false);
+            })
+            .catch((err) => {
+              setStatus({ success: false });
+              setErrors({ submit: err.message });
+              setSubmitting(false);
+              toast.error(`Неверный логин или пароль: ${err.message}`, { position: 'top-right' });
+            })
+            .finally(() => {
+              setChecked(false);
+              if (!checked) {
+                localStorage.removeItem('user');
+              }
+            });
         }}
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
@@ -65,21 +84,21 @@ const AuthLogin = () => {
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Stack spacing={1}>
-                  <InputLabel htmlFor="email-login">Aдрес электронной почты</InputLabel>
+                  <InputLabel htmlFor="text-login">Логин</InputLabel>
                   <OutlinedInput
-                    id="email-login"
-                    type="email"
-                    value={values.email}
-                    name="email"
+                    id="text-login"
+                    type="text"
+                    value={values.login}
+                    name="login"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    placeholder="Введите адрес электронной почты"
+                    placeholder="Логин"
                     fullWidth
-                    error={Boolean(touched.email && errors.email)}
+                    error={Boolean(touched.login && errors.login)}
                   />
-                  {touched.email && errors.email && (
+                  {touched.login && errors.login && (
                     <FormHelperText error id="standard-weight-helper-text-email-login">
-                      {errors.email}
+                      {errors.login}
                     </FormHelperText>
                   )}
                 </Stack>
@@ -133,16 +152,11 @@ const AuthLogin = () => {
                     }
                     label={<Typography variant="h6">Запомнить</Typography>}
                   />
-                  <Link variant="h6" component={RouterLink} to="/authRecover" color="text.primary">
+                  {/* <Link variant="h6" component={RouterLink} to="/authRecover" color="text.primary">
                     Забыли пароль?
-                  </Link>
+                  </Link> */}
                 </Stack>
               </Grid>
-              {errors.submit && (
-                <Grid item xs={12}>
-                  <FormHelperText error>{errors.submit}</FormHelperText>
-                </Grid>
-              )}
               <Grid item xs={12}>
                 <AnimateButton>
                   <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="primary">
