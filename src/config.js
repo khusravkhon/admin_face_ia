@@ -1,5 +1,3 @@
-// ==============================|| THEME CONFIG  ||============================== //
-
 const config = {
   defaultPath: '/main',
   fontFamily: `'Public Sans', sans-serif`,
@@ -13,4 +11,3 @@ const config = {
 
 export default config;
 export const drawerWidth = 260;
-
