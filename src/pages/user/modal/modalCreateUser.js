@@ -57,16 +57,57 @@ export default function ModalCreateUser({ refresh }) {
       });
   }
 
+  // const handleFileChange = (event) => {
+  //   const file = event.target.files[0];
+  //   setSelectedName(file.name);
+  //   var DateOfBirth = new Date(dateOfBirth).toUTCString();
+  //   const newFormData = new FormData();
+  //   newFormData.append('file', file);
+  //   newFormData.append('FirstName', firstName);
+  //   newFormData.append('LastName', LastName);
+  //   newFormData.append('DateOfBirth', DateOfBirth);
+  //   setFormData(newFormData);
+  // };
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedName(file.name);
+    const files = event.target.files[0];
+    setSelectedName(files.name);
     var DateOfBirth = new Date(dateOfBirth).toUTCString();
-    const newFormData = new FormData();
-    newFormData.append('file', file);
-    newFormData.append('FirstName', firstName);
-    newFormData.append('LastName', LastName);
-    newFormData.append('DateOfBirth', DateOfBirth);
-    setFormData(newFormData);
+
+    if (files && files.type === 'image/png') {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = new Image();
+        img.onload = function () {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+          canvas.toBlob(function (blob) {
+            const file = new File([blob], files.name.replace('.png', '.jpg'), { type: 'image/jpeg' });
+
+            console.log(file);
+
+            const newFormData = new FormData();
+            newFormData.append('file', file);
+            newFormData.append('FirstName', firstName);
+            newFormData.append('LastName', LastName);
+            newFormData.append('DateOfBirth', DateOfBirth);
+            setFormData(newFormData);
+          }, 'image/jpeg');
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(files);
+    } else {
+      // Если файл не PNG, добавляем его напрямую в FormData
+      const newFormData = new FormData();
+      newFormData.append('file', files);
+      newFormData.append('FirstName', firstName);
+      newFormData.append('LastName', LastName);
+      newFormData.append('DateOfBirth', DateOfBirth);
+      setFormData(newFormData);
+    }
   };
 
   return (
