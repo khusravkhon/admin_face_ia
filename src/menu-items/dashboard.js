@@ -1,7 +1,4 @@
-// assets
 import { ExpandOutlined } from '@ant-design/icons';
-
-// ==============================|| MENU ITEMS - DASHBOARD ||============================== //
 
 const dashboard = {
   id: 'group-dashboarde',
