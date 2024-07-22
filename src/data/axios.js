@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://192.168.108.46:5050/api';
+const baseURL = 'http://192.168.35.46:5257/api';
 const token = JSON.parse(localStorage.getItem('jwtToken'));
 
 const api = axios.create({
