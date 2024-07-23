@@ -75,3 +75,7 @@ The project relies on a number of dependencies for its functionality. Key depend
 - `@babel/core`, `@babel/eslint-parser`: For transpiling JavaScript.
 - `eslint`, `prettier`: For code linting and formatting.
 - `tailwindcss`: For utility-first CSS styling.
+
+## Contact
+
+For more details about me and my other projects, please visit [my profile](https://khusravkhon.github.io/resume).
