@@ -2,26 +2,18 @@ import api from 'data/axios';
 
 export default {
   refreshUser() {
-    return api.get('User/GetAll');
+    return api.get('people');
   },
-  UserId(user) {
-    return api.get(`User/GetById/${user}`);
+  UserId(id) {
+    return api.get(`people/${id}`);
   },
-  createUser(formData) {
-    return api.post('User/Create', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    });
+  createUser(data) {
+    return api.post('people', data);
   },
-  editUser(formData) {
-    return api.put('User/Update', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    });
+  editUser(data) {
+    return api.put(`people/${data.id}`, data);
   },
-  deleteUser(user) {
-    return api.delete(`User/Delete?id=${user}`);
+  deleteUser(id) {
+    return api.delete(`people/${id}`);
   }
 };

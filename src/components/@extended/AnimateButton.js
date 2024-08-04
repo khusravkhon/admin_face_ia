@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 
-
-export default function AnimateButton({ children, type }) {
+export default function AnimateButton({ children, type = 'scale' }) {
   switch (type) {
     case 'rotate': 
     case 'slide':
@@ -19,8 +18,4 @@ export default function AnimateButton({ children, type }) {
 AnimateButton.propTypes = {
   children: PropTypes.node,
   type: PropTypes.oneOf(['slide', 'scale', 'rotate'])
-};
-
-AnimateButton.defaultProps = {
-  type: 'scale'
 };

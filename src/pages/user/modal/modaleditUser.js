@@ -22,13 +22,13 @@ const style = {
   p: 4
 };
 
-export default function ModalEditUser({ editUser }) {
+export default function ModalEditUser({ editUser,refresh }) {
   const { modalEditUser } = useSelector((state) => state.modalUser);
-  const [formData, setFormData] = React.useState(new FormData());
   const [userId, setUserId] = React.useState();
   const [firstName, setFirstName] = React.useState('');
   const [LastName, setLastName] = React.useState('');
   const [dateOfBirth, setDateOfBirth] = React.useState('');
+  const [file, setfile] = React.useState('');
   const [selectedName, setSelectedName] = React.useState('');
   const [disabledUser, setDisabled] = React.useState(false);
   const dispatch = useDispatch();
@@ -41,7 +41,6 @@ export default function ModalEditUser({ editUser }) {
       setFirstName(editUser.firstName);
       setLastName(editUser.lastName);
       setDateOfBirth(moment(editUser.dateOfBirth).format('YYYY-MM-DD hh:mm:ss'));
-      console.log(editUser.dateOfBirth);
     }
   }, [editUser]);
 
@@ -53,11 +52,17 @@ export default function ModalEditUser({ editUser }) {
   };
 
   function createUserApi() {
+    let data = {
+      id: userId,
+      firstName: firstName,
+      lastName: LastName,
+      dateOfBirth: dateOfBirth,
+      img: file
+    }
     setDisabled(true);
     api
-      .editUser(formData)
+      .editUser(data)
       .then(() => {
-        console.log('efwef');
         toast.success('Данные пользователь изменении', { position: 'top-right' });
         dispatch(modalEditClose(), clears());
         refresh();
@@ -72,15 +77,7 @@ export default function ModalEditUser({ editUser }) {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    setSelectedName(file.name);
-    var dateOfBirths = new Date(dateOfBirth).toUTCString();
-    const newFormData = new FormData();
-    newFormData.append('file', file);
-    newFormData.append('FirstName', firstName);
-    newFormData.append('LastName', LastName);
-    newFormData.append('DateOfBirth', dateOfBirths);
-    newFormData.append('Id', userId);
-    setFormData(newFormData);
+    setfile(file)
   };
   if (editUser) {
     return (
@@ -169,7 +166,7 @@ export default function ModalEditUser({ editUser }) {
                         color="primary"
                         onClick={() => createUserApi()}
                       >
-                        Создать
+                        Изменить
                       </Button>
                     </AnimateButton>
                   </Grid>
