@@ -24,10 +24,10 @@ const style = {
 
 export default function ModalCreateUser({ refresh }) {
   const { modalCreateUser } = useSelector((state) => state.modalUser);
-  const [formData, setFormData] = React.useState(new FormData());
   const [firstName, setFirstName] = React.useState('');
   const [LastName, setLastName] = React.useState('');
   const [dateOfBirth, setDateOfBirth] = React.useState('');
+  const [file, setFile] = React.useState('');
   const [selectedName, setSelectedName] = React.useState('');
   const [disabledUser, setDisabled] = React.useState(false);
   const dispatch = useDispatch();
@@ -40,10 +40,15 @@ export default function ModalCreateUser({ refresh }) {
   };
 
   function createUserApi() {
+    let data = {
+      firstName: firstName,
+      lastName: LastName,
+      dateOfBirth: dateOfBirth,
+      img: file
+    }
     setDisabled(true);
-    console.log(formData);
     api
-      .createUser(formData)
+      .createUser(data)
       .then(() => {
         dispatch(modalCreateClose(), clears());
         refresh();
@@ -56,22 +61,9 @@ export default function ModalCreateUser({ refresh }) {
         setDisabled(false);
       });
   }
-
-  // const handleFileChange = (event) => {
-  //   const file = event.target.files[0];
-  //   setSelectedName(file.name);
-  //   var DateOfBirth = new Date(dateOfBirth).toUTCString();
-  //   const newFormData = new FormData();
-  //   newFormData.append('file', file);
-  //   newFormData.append('FirstName', firstName);
-  //   newFormData.append('LastName', LastName);
-  //   newFormData.append('DateOfBirth', DateOfBirth);
-  //   setFormData(newFormData);
-  // };
   const handleFileChange = (event) => {
     const files = event.target.files[0];
     setSelectedName(files.name);
-    var DateOfBirth = new Date(dateOfBirth).toUTCString();
 
     if (files && files.type === 'image/png') {
       const reader = new FileReader();
@@ -84,29 +76,13 @@ export default function ModalCreateUser({ refresh }) {
           canvas.height = img.height;
           ctx.drawImage(img, 0, 0);
           canvas.toBlob(function (blob) {
-            const file = new File([blob], files.name.replace('.png', '.jpg'), { type: 'image/jpeg' });
-
-            console.log(file);
-
-            const newFormData = new FormData();
-            newFormData.append('file', file);
-            newFormData.append('FirstName', firstName);
-            newFormData.append('LastName', LastName);
-            newFormData.append('DateOfBirth', DateOfBirth);
-            setFormData(newFormData);
+          const file = new File([blob], files.name.replace('.png', '.jpg'), { type: 'image/jpeg' });
+          setFile(file)          
           }, 'image/jpeg');
         };
         img.src = e.target.result;
       };
       reader.readAsDataURL(files);
-    } else {
-      // Если файл не PNG, добавляем его напрямую в FormData
-      const newFormData = new FormData();
-      newFormData.append('file', files);
-      newFormData.append('FirstName', firstName);
-      newFormData.append('LastName', LastName);
-      newFormData.append('DateOfBirth', DateOfBirth);
-      setFormData(newFormData);
     }
   };
 

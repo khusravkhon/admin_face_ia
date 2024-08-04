@@ -79,3 +79,5 @@ The project relies on a number of dependencies for its functionality. Key depend
 ## Contact
 
 For more details about me and my other projects, please visit [my profile](https://khusravkhon.github.io/resume).
+
+Browsing on the web application [admin_face_ai](https://admin-face-ia-five.vercel.app/main).
