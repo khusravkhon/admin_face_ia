@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://192.168.35.46:5257/api';
+const baseURL = 'https://64d7183d2a017531bc12f8c8.mockapi.io/';
 const token = JSON.parse(localStorage.getItem('jwtToken'));
 
 const api = axios.create({
@@ -8,7 +8,8 @@ const api = axios.create({
   headers: {
     Authorization: `Bearer ${token?.jwtToken}`,
     'Cache-Control': 'no-cache',
-    Pragma: 'no-cache'
+    Pragma: 'no-cache',
+    "Content-type": "application/json"
   }
 });
 
