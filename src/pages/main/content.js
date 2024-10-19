@@ -181,7 +181,7 @@ function Content({ projectRef, eyeRef, demonstrationRef, advantagesRef }) {
         </div>
       </div>
       <div ref={advantagesRef} className=" bg-white mt-[48px] pb-[48px]">
-        <div className="text-center text-[#000000] text-[40px] font-normal">Примужества</div>
+        <div className="text-center text-[#000000] text-[40px] font-normal">Преимущества</div>
         <div className="flex justify-center mt-[12px]">
           {primaries.map((pri, index) => (
             <div key={index}>
@@ -200,7 +200,7 @@ function Content({ projectRef, eyeRef, demonstrationRef, advantagesRef }) {
             Руководитель: Доктор философии(PhD), и.о. доцента, Низамитдинов Ахлитдин . Илёситдинович
           </div>
           <div className="hover:underline hover:text-[#5c6fdb] text-[20px]">
-            <a href="#">Политика конфиденциальности</a>
+            <a href="https://north-kitty-bef.notion.site/124bf0bd374e80a5a276cf6d7293669c?pvs=4">Политика конфиденциальности</a>
           </div>
         </div>
       </div>
