@@ -26,7 +26,6 @@ To set up the project locally, follow these steps:
 1. Clone the repository:
    ```sh
    git clone https://github.com/khusravkhon/admin_face_ia.git
-   cd admin_face_ia
    ```
 2. Navigate to the project directory:
    ```sh
