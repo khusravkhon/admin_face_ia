@@ -1,14 +1,16 @@
 import React, { useRef, 
-  useState 
+  useState,
+  useEffect
 } from 'react';
 
 const CameraWrapper = () => {
   const videoRef = useRef(null);
   const [statusStartCamera, setstatusStartCamera ] = useState(true)
+  const [facingMode, setFacingMode] = useState('user')
 
   const startCamera = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode } });
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         videoRef.current.play();
@@ -18,6 +20,23 @@ const CameraWrapper = () => {
       console.error('Ошибка доступа к камере:', error);
     }
   };
+
+  const toggleCamera = () => {
+    setFacingMode((prevMode) => (prevMode === 'user' ? 'environment' : 'user'))
+  };
+
+  useEffect(() => {
+    if(!statusStartCamera) {
+      startCamera();
+      return () => {
+        if (videoRef.current && videoRef.current.srcObject instanceof MediaStream) {
+          const stream = videoRef.current.srcObject;
+          const tracks = stream.getTracks();
+          tracks.forEach((track) => track.stop());
+        }
+      }
+    }
+  }, [facingMode])
 
   return (
     <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>
@@ -64,6 +83,9 @@ const CameraWrapper = () => {
           >
         <button style={{ padding: '10px 20px', fontSize: '16px' }}>
           Сфотографировать
+        </button>
+        <button  onClick={toggleCamera} style={{ padding: '10px 20px', fontSize: '16px' }}>
+          Повернуть
         </button>
       </div>
         ) }
