@@ -40,12 +40,10 @@ const CameraWrapper = () => {
         autoPlay
         playsInline
         style={{
-          width: '100%',
+          width: '90%',
           maxHeight: '70vh',
           objectFit: 'cover',
           borderRadius: '10px',
-          marginLeft: '12px',
-          marginRight: '12px'
         }}
       >
         <track kind="captions" src="" />
