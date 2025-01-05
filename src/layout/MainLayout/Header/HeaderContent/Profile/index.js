@@ -26,10 +26,14 @@ TabPanel.propTypes = {
 
 const Profile = () => {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem('jwtToken'));
+  const user = JSON.parse(localStorage.getItem('token'));
+  console.log(user);
+  
   const theme = useTheme();
+  
 
   const handleLogout = () => {
+    localStorage.removeItem('token')
     localStorage.removeItem('jwtToken');
     navigate('/Login');
   };
@@ -66,7 +70,7 @@ const Profile = () => {
       >
         <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
           <Avatar alt="profile user" sx={{ width: 32, height: 32 }} />
-          <Typography variant="subtitle1">{user.login}</Typography>
+          <Typography variant="subtitle1">{user.user.email}</Typography>
         </Stack>
       </ButtonBase>
       <Popper
@@ -111,7 +115,7 @@ const Profile = () => {
                             <Stack>
                               <Typography variant="h6">{user.login}</Typography>
                               <Typography variant="body2" color="textSecondary">
-                                Админ
+                                {user.user.email}
                               </Typography>
                             </Stack>
                           </Stack>

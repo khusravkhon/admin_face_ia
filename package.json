@@ -13,6 +13,7 @@
     "@mui/x-data-grid": "^7.1.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@reduxjs/toolkit": "^2.1.0",
+    "@supabase/supabase-js": "^2.47.10",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.3.1",

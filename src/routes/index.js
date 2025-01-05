@@ -6,10 +6,10 @@ import CameraRoutes from './CameraRoutes';
 import Main from './main';
 
 export default function ThemeRoutes() {
-  const isAutoToken = JSON.parse(localStorage.getItem('jwtToken'));
+  const access_token = JSON.parse(localStorage.getItem('token'));
 
   const routes = useRoutes(
-    isAutoToken == null
+    access_token == null
       ? [
           ...CameraRoutes(),
           ...LoginRoutes(),

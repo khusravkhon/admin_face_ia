@@ -15,7 +15,6 @@ const DashboardDefault = () => {
   const dispatch = useDispatch();
 
   function refresh() {
-    console.log('efewf');
     setisActiveLoading(true);
     api.refreshUser().then((res) => {
       setData(res.data);
