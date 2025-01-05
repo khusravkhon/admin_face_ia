@@ -34,27 +34,53 @@ const CameraWrapper = () => {
   };
 
   return (
-    <div>
+    <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>
       <video
         ref={videoRef}
         autoPlay
         playsInline
         style={{
-          width: '90%',
-          maxHeight: '70vh',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
           objectFit: 'cover',
-          borderRadius: '10px',
         }}
       >
         <track kind="captions" src="" />
       </video>
-      <button onClick={startCamera}>Запустить камеру</button>
-      <button onClick={takePhoto}>Сфотографировать</button>
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '20px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          display: 'flex',
+          gap: '10px',
+        }}
+      >
+        <button onClick={startCamera} style={{ padding: '10px 20px', fontSize: '16px' }}>
+          Запустить камеру
+        </button>
+        <button onClick={takePhoto} style={{ padding: '10px 20px', fontSize: '16px' }}>
+          Сфотографировать
+        </button>
+      </div>
       <canvas ref={canvasRef} style={{ display: 'none' }}></canvas>
       {photo && (
-        <div>
-          <h3>Ваше фото:</h3>
-          <img src={photo} alt="User snapshot" />
+        <div
+          style={{
+            position: 'absolute',
+            top: '10px',
+            right: '10px',
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            padding: '10px',
+            borderRadius: '5px',
+          }}
+        >
+          <h3 style={{ color: 'white' }}>Ваше фото:</h3>
+          <img src={photo} alt="User snapshot" style={{ width: '100px', height: 'auto' }} />
         </div>
       )}
     </div>
@@ -62,6 +88,7 @@ const CameraWrapper = () => {
 };
 
 export default CameraWrapper;
+
 
 
 
