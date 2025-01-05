@@ -38,15 +38,15 @@ export default function ModalCreateUser({ refresh }) {
     setDateOfBirth('');
     setSelectedName('');
   };
-
-  function createUserApi() {
-    let data = {
-      firstName: firstName,
-      lastName: LastName,
-      dateOfBirth: dateOfBirth,
-      img: file
-    }
+  async function createUserApi() {
     setDisabled(true);
+    const response = await api.savePhoto(file)
+    let data = {
+      Name: firstName,
+      Last: LastName,
+      Birthday: dateOfBirth,
+      Img: response
+    }
     api
       .createUser(data)
       .then(() => {
@@ -65,7 +65,7 @@ export default function ModalCreateUser({ refresh }) {
     const files = event.target.files[0];
     setSelectedName(files.name);
 
-    if (files && files.type === 'image/png') {
+    if (files) {
       const reader = new FileReader();
       reader.onload = function (e) {
         const img = new Image();
@@ -126,7 +126,7 @@ export default function ModalCreateUser({ refresh }) {
                 <Stack spacing={1}>
                   <InputLabel htmlFor="password-login">Дата рождения</InputLabel>
                   <InputBase
-                    type="datetime-local"
+                    type="date"
                     onChange={(e) => setDateOfBirth(e.target.value)}
                     fullWidth
                     sx={{ padding: 1, borderRadius: '10px', border: '1px solid silver ' }}

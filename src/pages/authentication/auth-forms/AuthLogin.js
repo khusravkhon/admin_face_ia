@@ -53,14 +53,15 @@ const AuthLogin = () => {
           login: Yup.string().max(30).required('Логин'),
           password: Yup.string().max(20).required('Требуется ввести пароль')
         })}
-        onSubmit={(values, { setErrors, setStatus, setSubmitting }) => {
+        onSubmit={(values, {  setStatus, setSubmitting }) => {
           api
             .loginUser(values)
             .then((res) => {
               if (checked) {
                 localStorage.setItem('user', JSON.stringify(values));
               }
-              localStorage.setItem('jwtToken', JSON.stringify(res.data));
+              localStorage.setItem('token', JSON.stringify(res.data))
+              localStorage.setItem('jwtToken', JSON.stringify(res.data.session));
               navigate('/admin');
               setStatus({ success: true });
               setSubmitting(false);

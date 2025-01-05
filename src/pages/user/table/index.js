@@ -16,11 +16,12 @@ export default function TableUser({ data, createUser, editUser, refresh }) {
     createUser();
   };
   const editRecord = (id) => {
-    editUser(id);
+    editUser(id.id);
   };
-  const deleteRecord = (id) => {
+  const deleteRecord = async (id) => {
+    await api.deleteImg(id.Img)
     api
-      .deleteUser(id)
+      .deleteUser(id.id)
       .then((res) => {
         toast.success(`Пользователь удалён: ${res.data}`, { position: 'top-right' });
       })
@@ -75,13 +76,13 @@ export default function TableUser({ data, createUser, editUser, refresh }) {
               <TableRow
                 key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                onContextMenu={(event) => handleContextMenu(event, row.id)}
+                onContextMenu={(event) => handleContextMenu(event, row)}
               >
                 <TableCell component="th" scope="row">
-                  {row.firstName}
+                  {row.Name}
                 </TableCell>
-                <TableCell align="right">{row.lastName}</TableCell>
-                <TableCell align="right">{moment(row.dateOfBirth).format('DD/MM/YYYY HH:mm:ss')}</TableCell>
+                <TableCell align="right">{row.Last}</TableCell>
+                <TableCell align="right">{moment(row.Birthday).format('DD/MM/YYYY')}</TableCell>
               </TableRow>
             ))}
           </TableBody>

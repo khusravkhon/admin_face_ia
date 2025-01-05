@@ -37,10 +37,11 @@ export default function ModalEditUser({ editUser,refresh }) {
 
   React.useEffect(() => {
     if (editUser) {
-      setUserId(editUser.id);
-      setFirstName(editUser.firstName);
-      setLastName(editUser.lastName);
-      setDateOfBirth(moment(editUser.dateOfBirth).format('YYYY-MM-DD hh:mm:ss'));
+      const user = editUser[0]
+      setUserId(user.id);
+      setFirstName(user.Name);
+      setLastName(user.Last);
+      setDateOfBirth(moment(user.Birthday).format('YYYY-MM-DD'));
     }
   }, [editUser]);
 
@@ -51,15 +52,21 @@ export default function ModalEditUser({ editUser,refresh }) {
     setSelectedName('');
   };
 
-  function createUserApi() {
+  async function createUserApi() {
+    setDisabled(true);
+    let img = null
+    if(file) {
+      await api.deleteImg(editUser[0].Img)
+      const response = await api.savePhoto(file)
+      img = response
+    }
     let data = {
       id: userId,
-      firstName: firstName,
-      lastName: LastName,
-      dateOfBirth: dateOfBirth,
-      img: file
+      Name: firstName,
+      Last: LastName,
+      Birthday: dateOfBirth,
+      Img: img ? img : editUser[0].Img
     }
-    setDisabled(true);
     api
       .editUser(data)
       .then(() => {
@@ -122,7 +129,7 @@ export default function ModalEditUser({ editUser,refresh }) {
                   <Stack spacing={1}>
                     <InputLabel htmlFor="login">Дата рождения</InputLabel>
                     <InputBase
-                      type="datetime-local"
+                      type="date"
                       value={dateOfBirth}
                       onChange={(e) => setDateOfBirth(e.target.value)}
                       fullWidth

@@ -1,14 +1,10 @@
-// import api from 'data/axios';
+import { supabase } from '../supabase'
 
 export default {
   loginUser(login) {
-    // return api.post(`Auth/Login`, login);
-    return new Promise((res, rej) => {
-      if(login.login == 'khusrav' && login.password == '8065khusrav') {
-        res({data: {jwtToken: 'khusrav8065khusrav'}})
-      }else {
-        rej({message: "problec is polin or password"})
-      }
+    return supabase.auth.signInWithPassword({
+      email: login.login,
+      password: login.password
     })
   }
 };
