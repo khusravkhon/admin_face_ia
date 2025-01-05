@@ -40,7 +40,6 @@ function Camera() {
         sx={{
           display: 'flex',
           justifyContent: 'center',
-          mt: 5
         }}
       >
         <CameraWrapper />
