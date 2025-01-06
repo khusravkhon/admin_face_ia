@@ -11,9 +11,9 @@ const CameraWrapper = () => {
       const stream = await navigator.mediaDevices.getUserMedia({ 
         video: { 
           facingMode,
-          width: { max: 9999 }, 
-          height: { max: 9999 },
-          frameRate: { max: 60 },
+          width: { ideal: 1920 },
+          height: { ideal: 1080 },
+          frameRate: { ideal: 30 },
         } 
       });
       if (videoRef.current) {
