@@ -1,12 +1,10 @@
-import React, { useRef, 
-  useState,
-  useEffect
-} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 const CameraWrapper = () => {
   const videoRef = useRef(null);
-  const [statusStartCamera, setstatusStartCamera ] = useState(true)
-  const [facingMode, setFacingMode] = useState('user')
+  const [statusStartCamera, setStatusStartCamera] = useState(true);
+  const [facingMode, setFacingMode] = useState('user');
+  const [photoPreview, setPhotoPreview] = useState(null);
 
   const startCamera = async () => {
     try {
@@ -14,7 +12,7 @@ const CameraWrapper = () => {
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         videoRef.current.play();
-        setstatusStartCamera(false)
+        setStatusStartCamera(false);
       }
     } catch (error) {
       console.error('Ошибка доступа к камере:', error);
@@ -22,11 +20,20 @@ const CameraWrapper = () => {
   };
 
   const toggleCamera = () => {
-    setFacingMode((prevMode) => (prevMode === 'user' ? 'environment' : 'user'))
+    setFacingMode((prevMode) => (prevMode === 'user' ? 'environment' : 'user'));
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => setPhotoPreview(e.target.result);
+      reader.readAsDataURL(file);
+    }
   };
 
   useEffect(() => {
-    if(!statusStartCamera) {
+    if (!statusStartCamera) {
       startCamera();
       return () => {
         if (videoRef.current && videoRef.current.srcObject instanceof MediaStream) {
@@ -34,29 +41,45 @@ const CameraWrapper = () => {
           const tracks = stream.getTracks();
           tracks.forEach((track) => track.stop());
         }
-      }
+      };
     }
-  }, [facingMode])
+  }, [facingMode]);
 
   return (
     <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>
-      <video
-        ref={videoRef}
-        autoPlay
-        playsInline
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-        }}
-      >
-        <track kind="captions" src="" />
-      </video>
-        { statusStartCamera ? (
-          <div
+      {photoPreview ? (
+        <img
+          src={photoPreview}
+          alt="Предпросмотр фото"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+        />
+      ) : (
+        <video
+          ref={videoRef}
+          autoPlay
+          playsInline
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+        >
+          <track kind="captions" src="" />
+        </video>
+      )}
+
+      {statusStartCamera ? (
+        <div
           style={{
             position: 'absolute',
             left: '50%',
@@ -65,35 +88,147 @@ const CameraWrapper = () => {
             display: 'flex',
             gap: '10px',
           }}
-          >
+        >
           <button onClick={startCamera} style={{ padding: '10px 20px', fontSize: '16px' }}>
-          Запустить камеру
-        </button>
-          </div>
-        ) : (
-          <div
-            style={{
-              position: 'absolute',
-              bottom: '20px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              display: 'flex',
-              gap: '10px',
-            }}
+            Запустить камеру
+          </button>
+          <input
+            type="file"
+            accept="image/*"
+            capture="camera"
+            id="cameraInput"
+            style={{ display: 'none' }}
+            onChange={handleFileChange}
+          />
+          <button
+            onClick={() => document.getElementById('cameraInput').click()}
+            style={{ padding: '10px 20px', fontSize: '16px' }}
           >
-        <button style={{ padding: '10px 20px', fontSize: '16px' }}>
-          Сфотографировать
-        </button>
-        <button  onClick={toggleCamera} style={{ padding: '10px 20px', fontSize: '16px' }}>
-          Повернуть
-        </button>
-      </div>
-        ) }
+            Открыть приложение камеры
+          </button>
+        </div>
+      ) : (
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '20px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            display: 'flex',
+            gap: '10px',
+          }}
+        >
+          <button style={{ padding: '10px 20px', fontSize: '16px' }}>
+            Сфотографировать
+          </button>
+          <button onClick={toggleCamera} style={{ padding: '10px 20px', fontSize: '16px' }}>
+            Повернуть
+          </button>
+        </div>
+      )}
     </div>
   );
 };
 
 export default CameraWrapper;
+
+
+// import React, { useRef, 
+//   useState,
+//   useEffect
+// } from 'react';
+
+// const CameraWrapper = () => {
+//   const videoRef = useRef(null);
+//   const [statusStartCamera, setstatusStartCamera ] = useState(true)
+//   const [facingMode, setFacingMode] = useState('user')
+
+//   const startCamera = async () => {
+//     try {
+//       const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode } });
+//       if (videoRef.current) {
+//         videoRef.current.srcObject = stream;
+//         videoRef.current.play();
+//         setstatusStartCamera(false)
+//       }
+//     } catch (error) {
+//       console.error('Ошибка доступа к камере:', error);
+//     }
+//   };
+
+//   const toggleCamera = () => {
+//     setFacingMode((prevMode) => (prevMode === 'user' ? 'environment' : 'user'))
+//   };
+
+//   useEffect(() => {
+//     if(!statusStartCamera) {
+//       startCamera();
+//       return () => {
+//         if (videoRef.current && videoRef.current.srcObject instanceof MediaStream) {
+//           const stream = videoRef.current.srcObject;
+//           const tracks = stream.getTracks();
+//           tracks.forEach((track) => track.stop());
+//         }
+//       }
+//     }
+//   }, [facingMode])
+
+//   return (
+//     <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>
+//       <video
+//         ref={videoRef}
+//         autoPlay
+//         playsInline
+//         style={{
+//           position: 'absolute',
+//           top: 0,
+//           left: 0,
+//           width: '100%',
+//           height: '100%',
+//           objectFit: 'cover',
+//         }}
+//       >
+//         <track kind="captions" src="" />
+//       </video>
+//         { statusStartCamera ? (
+//           <div
+//           style={{
+//             position: 'absolute',
+//             left: '50%',
+//             top: '50%',
+//             transform: 'translateX(-50%)',
+//             display: 'flex',
+//             gap: '10px',
+//           }}
+//           >
+//           <button onClick={startCamera} style={{ padding: '10px 20px', fontSize: '16px' }}>
+//           Запустить камеру
+//         </button>
+//           </div>
+//         ) : (
+//           <div
+//             style={{
+//               position: 'absolute',
+//               bottom: '20px',
+//               left: '50%',
+//               transform: 'translateX(-50%)',
+//               display: 'flex',
+//               gap: '10px',
+//             }}
+//           >
+//         <button style={{ padding: '10px 20px', fontSize: '16px' }}>
+//           Сфотографировать
+//         </button>
+//         <button  onClick={toggleCamera} style={{ padding: '10px 20px', fontSize: '16px' }}>
+//           Повернуть
+//         </button>
+//       </div>
+//         ) }
+//     </div>
+//   );
+// };
+
+// export default CameraWrapper;
 
 
 
