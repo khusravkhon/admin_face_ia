@@ -1,25 +1,32 @@
-// import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
+// import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 function DataOpenPhoto({ dataPeople }) {
-  console.log(dataPeople);
   const moment = require('moment');
   return (
-    <Box height={'500px'} width={'50%'} marginRight={'3%'} className="borderCamera">
+    <div 
+    style={{
+      position: 'absolute',
+      left: '50%',
+      top: '10%',
+      transform: 'translateX(-50%)',
+      display: 'flex',
+      padding: '30px'
+    }}
+    
+    height={'100%'} width={'50%'} className="borderCamera">
       <div className="grid justify-items-center">
         <div className="mt-[20px]">
-          <img src={'data:image/jpeg;base64,' + dataPeople?.imagePath} className="w-[150px] h-[150px]" alt="" />
-          {/* <Avatar alt="Remy Sharp" src={dataPeople?.imagePath} sx={{ width: 150, height: 150 }} /> */}
+          <img src={dataPeople?.Img} className="w-[200px] h-[200px] rounded-full" alt="" />
         </div>
-        <div className="mt-[20px]">
+        <div className="mt-[20px] text-center">
           <Typography variant="h3" component="h2">
-            {`${dataPeople?.lastName} ${dataPeople?.firstName}`}
+            {`${dataPeople?.Name} ${dataPeople?.Last}`}
           </Typography>
         </div>
         <div className="mt-[20px] mb-[150px]">
           <Typography variant="h3" component="h2">
-            {moment(dataPeople?.dateOfBirth).format('DD/MM/YYYY HH:mm:ss')}
+            {moment(dataPeople?.Birthday).format('DD/MM/YYYY')}
           </Typography>
         </div>
         <div className="flex justify-around">
@@ -49,7 +56,7 @@ function DataOpenPhoto({ dataPeople }) {
           </div>
         </div>
       </div>
-    </Box>
+    </div>
   );
 }
 
