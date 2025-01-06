@@ -8,7 +8,14 @@ const CameraWrapper = () => {
 
   const startCamera = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode } });
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: { 
+          facingMode,
+          width: { max: 9999 }, 
+          height: { max: 9999 },
+          frameRate: { max: 60 },
+        } 
+      });
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
         videoRef.current.play();
