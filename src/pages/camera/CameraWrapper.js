@@ -3,7 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 const CameraWrapper = () => {
   const videoRef = useRef(null);
   const [statusStartCamera, setStatusStartCamera] = useState(true);
-  const [facingMode, setFacingMode] = useState('user');
+  const [facingMode, setFacingMode] = useState('environment');
   const [photoPreview, setPhotoPreview] = useState(null);
 
   const startCamera = async () => {
@@ -20,7 +20,7 @@ const CameraWrapper = () => {
   };
 
   const toggleCamera = () => {
-    setFacingMode((prevMode) => (prevMode === 'user' ? 'environment' : 'user'));
+    setFacingMode((prevMode) => (prevMode === 'environment' ? 'user' : 'environment'));
   };
 
   const handleFileChange = (event) => {
