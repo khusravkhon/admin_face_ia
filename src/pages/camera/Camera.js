@@ -9,11 +9,19 @@ import { useDispatch } from 'react-redux';
 import { onDisabledButton } from '../../store/reducers/camera/index';
 
 function Camera() {
-  const [dataPeople, setDataPeople] = useState();
+  const [dataPeople, setDataPeople] = useState(null);
   const [isActiveLoading, setisActiveLoading] = useState(false);
   const [isLoading, setLoading] = useState(true);
   const [filestatus, setfilestatus ] = useState(true)
   const dispatch = useDispatch();
+
+  const clearData = () => {
+    setisActiveLoading(false)
+    setDataPeople(null)
+    setfilestatus(true)
+    console.log('ewfwef');
+    
+  }
 
   const dataimg = (imageData) => {
     setfilestatus(false)
@@ -50,7 +58,7 @@ function Camera() {
         ) : ('') }
         {isLoading ? (
           isActiveLoading ? (
-            <DataOpenPhoto dataPeople={dataPeople} />
+            <DataOpenPhoto dataPeople={dataPeople} clearData={clearData} />
           ) : (
             ''
           )

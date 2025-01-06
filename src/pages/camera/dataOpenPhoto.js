@@ -1,7 +1,7 @@
-// import Box from '@mui/material/Box';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Typography from '@mui/material/Typography';
 
-function DataOpenPhoto({ dataPeople }) {
+function DataOpenPhoto({ dataPeople, clearData }) {
   const moment = require('moment');
   return (
     <div 
@@ -15,6 +15,7 @@ function DataOpenPhoto({ dataPeople }) {
     }}
     
     height={'100%'} width={'50%'} className="borderCamera">
+        <ArrowBackIcon onClick={clearData} className="cursor-pointer"/>
       <div className="grid justify-items-center">
         <div className="mt-[20px]">
           <img src={dataPeople?.Img} className="w-[200px] h-[200px] rounded-full" alt="" />
