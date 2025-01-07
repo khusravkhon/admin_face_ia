@@ -19,8 +19,6 @@ function Camera() {
     setisActiveLoading(false)
     setDataPeople(null)
     setfilestatus(true)
-    console.log('ewfwef');
-    
   }
 
   const dataimg = (imageData) => {
@@ -30,8 +28,6 @@ function Camera() {
     api
       .faceRecognition(imageData)
       .then((res) => {
-        console.log(res);
-        
         toast.success('Фото сделано!', { position: 'top-right' });
         setDataPeople(res.data);
         setisActiveLoading(true);
